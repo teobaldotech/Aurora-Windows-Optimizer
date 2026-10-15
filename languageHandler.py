@@ -1,4 +1,6 @@
-
+(Sem assunto)
+teo machado<teobaldomachado22@gmail.com>
+Você
 import gettext
 import os
 from unittest.mock import Mock
