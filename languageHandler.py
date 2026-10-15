@@ -1,168 +1,341 @@
-from __future__ import unicode_literals
-from builtins import zip
-from builtins import str
-import builtins
-import os
-import sys
-import ctypes
-import locale
+
 import gettext
-import platform
-#a few Windows locale constants
-LOCALE_SLANGUAGE=0x2
-LOCALE_SLANGDISPLAYNAME=0x6f
-curLang="es"
-def localeNameToWindowsLCID(localeName):
-    """Retreave the Windows locale identifier (LCID) for the given locale name
-    @param localeName: a string of 2letterLanguage_2letterCountry or or just 2letterLanguage
-    @type localeName: string
-    @returns: a Windows LCID
-    @rtype: integer
-    """ 
-    #Windows Vista is able to convert locale names to LCIDs
-    func_LocaleNameToLCID=getattr(ctypes.windll.kernel32,'LocaleNameToLCID',None)
-    if func_LocaleNameToLCID is not None:
-        localeName=localeName.replace('_','-')
-        LCID=func_LocaleNameToLCID(str(localeName),0)
-    else: #Windows doesn't have this functionality, manually search Python's windows_locale dictionary for the LCID
-        localeName=locale.normalize(localeName)
-        if '.' in localeName:
-            localeName=localeName.split('.')[0]
-        LCList=[x[0] for x in locale.windows_locale.items() if x[1]==localeName]
-        if len(LCList)>0:
-            LCID=LCList[0]
-        else:
-            LCID=0
-    return LCID
+import os
+from unittest.mock import Mock
 
-def getLanguageDescription(language):
-    """Finds out the description (localized full name) of a given local name"""
-    desc=None
-    if platform.system() == "Windows":
-        LCID=localeNameToWindowsLCID(language)
-        if LCID!=0:
-            buf=ctypes.create_unicode_buffer(1024)
-            if '_' not in language:
-                res=ctypes.windll.kernel32.GetLocaleInfoW(LCID,LOCALE_SLANGDISPLAYNAME,buf,1024)
-            else:
-                res=0
-            if res==0:
-                res=ctypes.windll.kernel32.GetLocaleInfoW(LCID,LOCALE_SLANGUAGE,buf,1024)
-            desc=buf.value
-    return desc
-def getAvailableLanguages():
-    """generates a list of locale names, plus their full localized language and country names.
-    @rtype: list of tuples
-    """
-    #Make a list of all the locales found in NVDA's locale dir
-    l=[x for x in os.listdir('locales') if os.path.isfile(os.path.join('locales', x, 'LC_MESSAGES', 'aurora.mo'))]
-    #Make sure that pt (portuguese) is in the list as it may not have any locale files, but is default
-    if 'pt' not in l:
-        l.append('pt')
-        l.sort()
-    #For each locale, ask Windows for its human readable display name
-    d=[]
-    for i in l:
-        desc=getLanguageDescription(i)
-        label="%s, %s"%(desc,i) if desc else i
-        d.append(label)
-    #include a 'user default, windows' language, which just represents the default language for this user account
-    l.append("system")
-    # Translators: the label for the Windows default NVDA interface language.
-    d.append(_("idioma do sistema"))
-    #return a zipped up version of both the lists (a list with tuples of locale,label)
-    return list(zip(l,d))
+import pytest
 
-def makePgettext(translations):
-    """Obtaina  pgettext function for use with a gettext translations instance.
-    pgettext is used to support message contexts,
-    but Python 2.7's gettext module doesn't support this,
-    so NVDA must provide its own implementation.
-    """
-    if isinstance(translations, gettext.GNUTranslations):
-        def pgettext(context, message):
-            message = str(message)
-            try:
-                # Look up the message with its context.
-                return translations._catalog["%s\x04%s" % (context, message)]
-            except KeyError:
-                return message
-    else:
-        def pgettext(context, message):
-            return str(message)
-    return pgettext
+import language
 
-def setLanguage(lang):
-    system = platform.system()
-    global curLang
-    try:
-        if lang=="system":
-            if system == "Windows":
-                windowsLCID=ctypes.windll.kernel32.GetUserDefaultUILanguage()
-                localeName=locale.windows_locale[windowsLCID]
-            trans=gettext.translation('aurora', localedir='locales', languages=[localeName])
-            curLang=localeName
-        else:
-            trans=gettext.translation('aurora', localedir='locales', languages=[lang])
-            curLang=lang
-            localeChanged=False
-            if system == "Windows":
-                locale.setlocale(locale.LC_ALL, langToWindowsLocale(lang))
-                localeChanged=True
-            else:
-                locale.setlocale(locale.LC_ALL, lang)
-                localeChanged=True
-            if not localeChanged and '_' in lang:
-                try:
-                    locale.setlocale(locale.LC_ALL, lang.split('_')[0])
-                except:
-                    pass
-            if system == "Windows":
-                LCID=localeNameToWindowsLCID(lang)
-                ctypes.windll.kernel32.SetThreadLocale(LCID)
-    except IOError:
-        trans=gettext.translation('aurora', fallback=True)
-        curLang="pt"
-    if sys.version[0] == "3":
-        trans.install()
-    else:
-        trans.install(unicode=True)
 
-def getLanguage():
-    return curLang
+class FakeTranslations:
+def init(self):
+self.install = Mock()
 
-def normalizeLanguage(lang):
-    """
-    Normalizes a  language-dialect string  in to a standard form we can deal with.
-    Converts  any dash to underline, and makes sure that language is lowercase and dialect is upercase.
-    """
-    lang=lang.replace('-','_')
-    ld=lang.split('_')
-    ld[0]=ld[0].lower()
-    #Filter out meta languages such as x-western
-    if ld[0]=='x':
-        return None
-    if len(ld)>=2:
-        ld[1]=ld[1].upper()
-    return "_".join(ld)
-def langToWindowsLocale(lang):
-    languages = {"en": "eng",
-                 "ar": "ara",
-                 "ca": "cat",
-                 "de": "deu",
-                 "es": "esp",
-                 "fi": "fin",
-                 "fr": "fre_FRA",
-                 "gl": "glc",
-                 "eu": "euq",
-                 "hu": "hun",
-                 "hr": "hrv",
-                 "it": "ita",
-                 "ja": "jpn",
-                 "pl": "plk",
-                 "pt": "ptb",
-                 "ru": "rus",
-                 "tr": "trk",
-                 "sr": "eng",
-                 }
-    return languages[lang]
+
+@pytest.fixture
+def fake_translations(monkeypatch):
+translations = FakeTranslations()
+monkeypatch.setattr(
+language.gettext,
+"translation",
+Mock(return_value=translations),
+)
+return translations
+
+
+@pytest.fixture
+def reset_language(monkeypatch):
+monkeypatch.setattr(language, "curLang", "es")
+
+
+@pytest.mark.parametrize(
+("value", "expected"),
+[
+("pt-br", "pt_BR"),
+("PT-br", "pt_BR"),
+("en-us", "en_US"),
+("es", "es"),
+("fr_FR", "fr_FR"),
+("de-DE", "de_DE"),
+(" pt-br ", "pt_BR"),
+],
+)
+def test_normalize_language_valid(value, expected):
+assert language.normalizeLanguage(value) == expected
+
+
+@pytest.mark.parametrize(
+"value",
+[
+None,
+"",
+" ",
+"x-western",
+"X-UNKNOWN",
+],
+)
+def test_normalize_language_invalid(value):
+assert language.normalizeLanguage(value) is None
+
+
+@pytest.mark.parametrize(
+("value", "expected"),
+[
+("pt", "ptb"),
+("en", "eng"),
+("es", "esp"),
+("fr", "fre_FRA"),
+("de", "deu"),
+("ja", "jpn"),
+("pt-BR", "ptb"),
+("en-US", "eng"),
+("unknown", "unknown"),
+],
+)
+def test_lang_to_windows_locale(value, expected):
+assert language.langToWindowsLocale(value) == expected
+
+
+def test_lang_to_windows_locale_rejects_non_string():
+with pytest.raises(TypeError):
+language.langToWindowsLocale(None)
+
+
+def test_lang_to_windows_locale_rejects_invalid_language():
+with pytest.raises(ValueError):
+language.langToWindowsLocale("")
+
+
+def test_get_language_returns_current_language(monkeypatch):
+monkeypatch.setattr(language, "curLang", "pt_BR")
+
+assert language.getLanguage() == "pt_BR"
+
+
+def test_get_available_languages_includes_portuguese(
+tmp_path,
+monkeypatch,
+):
+locales_dir = tmp_path / "locales"
+locales_dir.mkdir()
+
+monkeypatch.setattr(
+language,
+"_get_locales_dir",
+lambda: str(locales_dir),
+)
+monkeypatch.setattr(
+language,
+"getLanguageDescription",
+lambda _: None,
+)
+
+result = language.getAvailableLanguages()
+
+assert ("pt", "pt") in result
+assert ("system", "idioma do sistema") in result
+
+
+def test_get_available_languages_discovers_translation(
+tmp_path,
+monkeypatch,
+):
+locales_dir = tmp_path / "locales"
+translation_file = (
+locales_dir / "es" / "LC_MESSAGES" / "aurora.mo"
+)
+translation_file.parent.mkdir(parents=True)
+translation_file.touch()
+
+monkeypatch.setattr(
+language,
+"_get_locales_dir",
+lambda: str(locales_dir),
+)
+monkeypatch.setattr(
+language,
+"getLanguageDescription",
+lambda lang: "Espanhol" if lang == "es" else None,
+)
+
+result = language.getAvailableLanguages()
+
+assert ("es", "Espanhol, es") in result
+assert ("pt", "pt") in result
+
+
+def test_get_available_languages_handles_missing_directory(
+tmp_path,
+monkeypatch,
+):
+monkeypatch.setattr(
+language,
+"_get_locales_dir",
+lambda: str(tmp_path / "missing"),
+)
+monkeypatch.setattr(
+language,
+"getLanguageDescription",
+lambda _: None,
+)
+
+result = language.getAvailableLanguages()
+
+assert ("pt", "pt") in result
+assert ("system", "idioma do sistema") in result
+
+
+def test_set_language_loads_requested_translation(
+monkeypatch,
+fake_translations,
+reset_language,
+):
+monkeypatch.setattr(language.platform, "system", lambda: "Linux")
+monkeypatch.setattr(language.locale, "setlocale", Mock())
+
+language.setLanguage("es")
+
+assert language.getLanguage() == "es"
+fake_translations.install.assert_called_once()
+
+
+def test_set_language_uses_portuguese_fallback(
+monkeypatch,
+reset_language,
+):
+portuguese = FakeTranslations()
+translation_calls = []
+
+def translation_side_effect(
+domain,
+localedir=None,
+languages=None,
+fallback=False,
+):
+translation_calls.append((languages, fallback))
+
+if languages == ["es"]:
+raise OSError("Tradução espanhola não encontrada")
+
+if languages == ["pt"]:
+return portuguese
+
+if fallback:
+return portuguese
+
+raise OSError("Tradução não encontrada")
+
+monkeypatch.setattr(
+language.gettext,
+"translation",
+Mock(side_effect=translation_side_effect),
+)
+monkeypatch.setattr(language.platform, "system", lambda: "Linux")
+monkeypatch.setattr(language.locale, "setlocale", Mock())
+
+language.setLanguage("es")
+
+assert language.getLanguage() == "pt"
+portuguese.install.assert_called_once()
+assert (["es"], False) in translation_calls
+assert (["pt"], False) in translation_calls
+
+
+def test_set_language_handles_locale_error(
+monkeypatch,
+fake_translations,
+reset_language,
+):
+setlocale = Mock(side_effect=language.locale.Error("Locale inválido"))
+
+monkeypatch.setattr(language.platform, "system", lambda: "Linux")
+monkeypatch.setattr(language.locale, "setlocale", setlocale)
+
+language.setLanguage("pt_BR")
+
+assert language.getLanguage() == "pt_BR"
+fake_translations.install.assert_called_once()
+assert setlocale.called
+
+
+def test_set_language_invalid_input_uses_portuguese(
+monkeypatch,
+fake_translations,
+reset_language,
+):
+monkeypatch.setattr(language.platform, "system", lambda: "Linux")
+monkeypatch.setattr(language.locale, "setlocale", Mock())
+
+language.setLanguage(None)
+
+assert language.getLanguage() == "pt"
+fake_translations.install.assert_called_once()
+
+
+def test_set_language_system_mode(
+monkeypatch,
+fake_translations,
+reset_language,
+):
+monkeypatch.setattr(language.platform, "system", lambda: "Linux")
+monkeypatch.setattr(
+language,
+"_get_system_language",
+lambda: "pt_BR",
+)
+
+language.setLanguage("system")
+
+assert language.getLanguage() == "pt_BR"
+fake_translations.install.assert_called_once()
+
+
+def test_set_language_system_mode_without_system_locale(
+monkeypatch,
+fake_translations,
+reset_language,
+):
+monkeypatch.setattr(language.platform, "system", lambda: "Linux")
+monkeypatch.setattr(
+language,
+"_get_system_language",
+lambda: "pt",
+)
+
+language.setLanguage("system")
+
+assert language.getLanguage() == "pt"
+fake_translations.install.assert_called_once()
+
+
+def test_make_pgettext_returns_message_for_non_gnu_translation():
+pgettext = language.makePgettext(object())
+
+assert pgettext("menu", "Open") == "Open"
+
+
+def test_make_pgettext_uses_context_catalog():
+translations = gettext.GNUTranslations.new(
+gettext.GNUTranslations
+)
+translations._catalog = {
+"menu\x04Open": "Abrir",
+}
+
+pgettext = language.makePgettext(translations)
+
+assert pgettext("menu", "Open") == "Abrir"
+
+
+def test_make_pgettext_falls_back_to_original_message():
+translations = gettext.GNUTranslations.new(
+gettext.GNUTranslations
+)
+translations._catalog = {}
+
+pgettext = language.makePgettext(translations)
+
+assert pgettext("menu", "Missing") == "Missing"
+
+
+def test_get_language_description_returns_none_on_linux(
+monkeypatch,
+):
+monkeypatch.setattr(language.platform, "system", lambda: "Linux")
+
+assert language.getLanguageDescription("pt_BR") is None
+
+
+def test_locale_name_to_windows_lcid_returns_zero_for_invalid_name(
+monkeypatch,
+):
+monkeypatch.setattr(language.platform, "system", lambda: "Linux")
+monkeypatch.setattr(language.locale, "windows_locale", {})
+
+assert language.localeNameToWindowsLCID("invalid") == 0
+
+
+def test_locale_name_to_windows_lcid_rejects_empty_input():
+assert language.localeNameToWindowsLCID("") == 0
+assert language.localeNameToWindowsLCID(None) == 0 
