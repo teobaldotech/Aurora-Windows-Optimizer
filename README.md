@@ -1,104 +1,176 @@
-# Aurora Windows Optimizer
+# 🌌 Aurora Windows Optimizer
 
-# Aurora: Windows Optimizer™ Transforming Your PC into a Powerful Machine! 💻
+**Transform your Windows PC with customizable optimization tools.** 💻
 
+Aurora Windows Optimizer is an open-source application designed to help users customize Windows, manage system features, perform maintenance tasks, and apply optimization commands through a single interface.
 
+Whether your goal is to adjust system settings, reduce unwanted components, improve accessibility, or manage privacy-related options, Aurora provides a collection of commands that you can customize according to your needs.
 
-**Aurora™** is the ultimate Windows optimizer, an incredibly powerful tool that enhances your PC's performance! ✨
+Special thanks to [edu-mx](https://github.com/edu-mx) for contributing to the development of this project. 🙌
 
-Special thanks to [edu-mx](https://github.com/edu-mx) for their collaboration in development. 🙌
+## ✨ Features
 
-### Warning for Users with 8GB or More RAM
-If your PC has 8GB or more RAM, the performance and optimization impact may be minimal. However, if you prioritize privacy, you can still use various available commands
+Aurora offers a customizable collection of Windows commands and utilities.
 
-## Why Choose Aurora? 🤔
+### 🛠️ Command Management
 
-Whether you want to **optimize your PC for maximum performance** or simply **eliminate unwanted Windows features**, Aurora is the answer. This innovative optimizer offers:
+- **Custom commands:** Add your own commands and adapt Aurora to your workflow.
+- **Flexible organization:** Edit, remove, reorder, and sort commands alphabetically.
+- **Simplified updates:** Check for application updates directly from Aurora.
+- **Execution notifications:** Receive notifications when commands complete successfully or encounter errors.
+- **Change log access:** View project changes directly from the application.
+- **Restoration points:** Create Windows System Restore points before applying changes, where supported.
 
+### ⚡ System Optimization and Maintenance
 
-## aurora, windows optimizer is safe?
-Yes, Aurora Windows Optimizer is safe, and you can check it yourself with some tools.
-1. virustotal. [see and check the aurora in virustotal](https://www.virustotal.com/gui/file/21addd102f59240bfc9689f01ef4c70a8ce617893f688ebc98b53de1225afb8a/summary)
+Available commands and utilities include:
 
-2. Aurora is now signed with a trusted certificate by a trusted authority, CA. therefore, it is safe. Microsoft itself verified this!
+- Clear the Windows DNS cache.
+- Manage Windows animations and selected system settings.
+- Clean browser caches and perform disk maintenance.
+- Apply network-related adjustments using native Windows commands.
+- Manage preinstalled Windows applications.
+- Configure Windows Update behavior.
+- Manage selected Windows telemetry and privacy settings.
+- Access more than 100 optimization commands, according to the project's feature list.
 
-3. never download from sites other than chocolatey or github and always check the hashes for comparison, if the hash of the zip or executable is not the same, do not trust and do not install or run it.
+**Important:** Results depend on your Windows version, hardware, configuration, and the commands you choose. Not every optimization produces a measurable performance improvement.
 
-### 🌄 Powerful Features:
+### 📦 Application Installation and System Utilities
 
-- **Add Your Own Commands**: Have full control and customize Aurora with your own commands.
-- **Simplified Updates**: Stay updated with the touch of a button, directly from the application.
-- **Hassle-Free Optimization**: Say goodbye to obscure forums and ad-filled websites.
-- **Collaborator Community**: Join a vibrant community and share your custom commands.
-- **Open Source**: Contribute to the project and see your changes come to life in the open repository.
-- **Ability to edit, remove, or add your own commands as you wish; customization is yours! 😱**
-- **Move to the top, end of the list, or even alphabetically sort commands! ✌**
-- **Create a restoration point within Aurora itself and fearlessly boost your PC! 👏**
-- **Remove useless native apps that come pre-installed on your PC! Tired of bloatware? We're here to help! 🐱‍🎁**
-- **Install useful applications through Aurora, Windows Optimizer**
-- **Applications listed are:**
-1. NVDA, install NVDA: Screen Reader for the Blind.
-2. install all visual runtime, all  VC++ packages.
-3. install all .net framework from 1.0 to 8.0
-4. Install the much needed java8 JDK!
-5. Install winrar or, if you prefer, 7zip.
-6. enable directplay, necessary to run some games that require this component/feature.
-7. disable windows defender, or disable telemetry, it's your choice!
-8. Install VS code: for developers!
-9. Automatically log in to Windows without having to enter your password!
-10. Install a classic start menu or task manager, better than the one in windows 10! It's even better! with a classic look!
-11. enable or disable the firewall, it's your choice!
-12. Clear the DNS cache, optimize your windows with more than 100 commands and much more!
-13. completely disable windows update, completely!
-14. receive notifications when a command was completed successfully or an error occurred.
-15. the welcome message now no longer appears after the first run
-16. Now you can install the full team viewer cliente
-17. Check or activate the Windows11 recall.
-18. Optimize your internet with more than 10 native commands from Windows!
-19. Disable to know more about this photo
-20. Send a Benchmark form to become public at Github and for everyone to see the efficiency of Aurora, Windows Optimizer.
-21. See Changelog directly from the program!
-22. Optimize your disc, clean your browser cache, completely turn off Windows animations and more!
-Our list of features that Aurora offers will be updated as we introduce new features!
+Aurora's listed utilities include options to install or manage:
 
- # Additionally, Aurora is fully accessible for visually impaired users. 🌌
+1. NVDA screen reader for users who are blind or have low vision.
+2. Microsoft Visual C++ Redistributable packages.
+3. .NET Framework and related .NET components.
+4. Java 8 JDK.
+5. WinRAR or 7-Zip.
+6. DirectPlay for compatible legacy games.
+7. Visual Studio Code.
+8. TeamViewer.
+9. Classic Start menu or Task Manager alternatives.
+10. Additional Windows utilities and components.
 
-## How to Use Aurora? 🚀
+The availability and compatibility of individual packages may vary. Check each application's official requirements before installation.
 
-Getting started with optimizing your PC with Aurora is easy:
+### 🔐 Privacy and Security Controls
 
-1. Open the application
-2. Skip the welcome message if you've already made a restoration point.
-3. Choose from a variety of optimization commands or create your own. Press enter on a command and wait for it to be executed. 
-4. Edit, move, remove commands according to your preference.
+Aurora includes commands for managing selected Windows security and privacy features, such as:
 
-# It is highly recommended to create a restoration point before making changes so you can undo them if necessary.
+- Windows Defender settings.
+- Windows Firewall settings.
+- Windows telemetry options.
+- Automatic Windows sign-in.
+- Windows 11 Recall availability or settings, where supported.
 
-# We are not responsible for anything that happens to your PC; use at your own risk!
+**Security warning:** Disabling Microsoft Defender, the Windows Firewall, Windows Update, or other protective features can expose your computer to malware, unauthorized access, and security vulnerabilities. Automatic sign-in can also expose your account to anyone with physical access to your device.
 
-## installation methods
-* You can see the [changelog here](https://github.com/azurejoga/Aurora-Windows-Optimizer/blob/aurora/changelog.md)
+Only change these settings when you understand the consequences and have an appropriate alternative protection strategy.
 
-* you can see the installation methods [here](https://github.com/azurejoga/Aurora-Windows-Optimizer/blob/aurora/instalation.md)
+### ♿ Accessibility
 
-## Updating Aurora
+Aurora is designed to support visually impaired users, including keyboard-oriented workflows and accessibility features.
 
-To update Aurora, open the program and press **ALT** or go to the **Tools** menu, then select **Check for Updates**. A new installer will launch, and you will need to select the directory where Aurora is installed. Common installation directories include:
+The project also lists NVDA-related functionality. Actual accessibility depends on the application's current implementation and the compatibility of its interface with screen readers.
 
-- Microsoft Store: Documents
-- Documents: Where the NVDA Addon may be found (under `Documents).
-- Chocolatey: Chocolatey’s default directory.
-- Winget: Winget’s installation directory.
+### 🌐 Community and Open Source
 
-Note that the NVDA Addon is usually located in the `Documents` folder, but other installations depend on the user-defined directories.
+- Review and contribute to the source code.
+- Report bugs and request improvements through GitHub Issues.
+- Share ideas and custom commands with the community.
+- Submit benchmark information to help document optimization results.
+- Review the project's change log and installation instructions.
 
-After selecting the correct path, follow the on-screen instructions to complete the update.
+## 🖥️ Is Aurora Safe?
 
+Aurora is an open-source project, but **no optimizer should be considered completely safe solely because it is open source, digitally signed, or has been scanned by an antivirus service.**
 
-## Report Bugs and Collaborate 🐞😻
+Before running Aurora, follow these precautions:
 
-If you encounter any issues or have suggestions for improvements, please create an *issue*. Collaboration is essential to enhance Aurora and make it even more amazing.
+1. **Download from trusted sources.** Use the official [GitHub repository](https://github.com/azurejoga/Aurora-Windows-Optimizer) or the project's documented Chocolatey distribution.
+2. **Review antivirus results.** Check the [Aurora VirusTotal report](https://www.virustotal.com/gui/file/21addd102f59240bfc9689f01ef4c70a8ce617893f688ebc98b53de1225afb8a/summary). Antivirus results are useful indicators, but they do not guarantee that a file is harmless.
+3. **Verify file hashes.** Compare the downloaded file's SHA-256 hash with a value published through a trusted, independent project source.
+4. **Check the digital signature.** Verify the publisher, certificate validity, and signature integrity. A valid signature identifies the signer and helps detect modifications; it does not prove that every operation is safe.
+5. **Inspect commands before execution.** Custom commands can modify system settings, remove applications, or make administrative changes.
+6. **Create a backup.** Back up important files and create a Windows System Restore point before making significant system changes.
 
-# Thank you for choosing Aurora to elevate your PC's performance to unprecedented levels! 💪✨
+Never execute an installer or archive if its integrity cannot be verified or its origin is uncertain.
 
-# Licensed under the MIT License
+## 💾 Installation
+
+Follow the installation instructions maintained by the project:
+
+- [Installation methods](https://github.com/azurejoga/Aurora-Windows-Optimizer/blob/aurora/instalation.md)
+- [Official GitHub repository](https://github.com/azurejoga/Aurora-Windows-Optimizer)
+
+Use only the distribution methods documented by the project and verify downloads before running them.
+
+## 🚀 How to Use Aurora
+
+1. Download and install Aurora using a documented installation method.
+2. Open the application and review its initial instructions.
+3. Create a Windows System Restore point and back up important data before applying changes.
+4. Browse the available optimization commands.
+5. Read each command's description and understand its effects before executing it.
+6. Select a command and press **Enter**, following the application's on-screen instructions.
+7. Customize the command list by editing, adding, removing, or rearranging entries as needed.
+8. Restart Windows when a command requires it, then check whether the intended change was successful.
+
+**Recommendation:** Apply changes individually rather than running every optimization at once. This makes troubleshooting easier if something stops working.
+
+## 🔄 Updating Aurora
+
+To check for updates:
+
+1. Open Aurora.
+2. Press **Alt** or open the **Tools** menu.
+3. Select **Check for Updates**.
+4. Follow the installer instructions.
+5. Select the correct installation directory when prompted.
+
+Depending on the installation method, Aurora may be located in a user-selected directory or a package-manager-managed location.
+
+The NVDA add-on may be stored in the `Documents` folder, depending on your configuration. Do not assume that every installation uses the same directory.
+
+For additional details, consult the [installation guide](https://github.com/azurejoga/Aurora-Windows-Optimizer/blob/aurora/instalation.md).
+
+## 📝 Change Log
+
+Review recent changes, fixes, and feature additions:
+
+[View the Aurora change log](https://github.com/azurejoga/Aurora-Windows-Optimizer/blob/aurora/changelog.md)
+
+## 🐞 Bug Reports and Contributions
+
+Found a bug or have an idea for improvement?
+
+1. Visit the [Aurora GitHub repository](https://github.com/azurejoga/Aurora-Windows-Optimizer).
+2. Review existing issues to avoid duplicates.
+3. Open a new issue with a clear description of the problem.
+4. Include your Windows version, relevant logs, reproduction steps, and expected behavior when available.
+
+Contributions are welcome. Please review the repository's contribution guidelines before submitting changes, if available.
+
+## ⚠️ Disclaimer
+
+Aurora Windows Optimizer modifies Windows settings and may execute commands with elevated privileges. Incorrect configuration or incompatible commands can cause system instability, loss of functionality, or data loss.
+
+- Use the application at your own risk.
+- Review commands before executing them.
+- Keep backups of important data.
+- Do not disable security features without understanding the risks.
+- Test significant changes in a controlled environment whenever possible.
+
+The maintainers' actual responsibilities and any applicable warranties are governed by the project's license and relevant law.
+
+## 📄 License
+
+Aurora Windows Optimizer is distributed under the [MIT License](https://opensource.org/license/mit/).
+
+See the repository's `LICENSE` file for the complete license text.
+
+---
+
+**Thank you for checking out Aurora Windows Optimizer!** 🌌
+
+Explore the project, review the available commands, and contribute to making Windows customization more accessible and transparent.
