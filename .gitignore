@@ -1,4 +1,3 @@
-```gitignore
 # Sistema operacional — macOS
 .DS_Store
 .AppleDouble
@@ -22,7 +21,11 @@ $RECYCLE.BIN/
 .Trash-*/
 
 # Editores e IDEs
-.vscode/
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
 .idea/
 *.sublime-workspace
 *.swp
@@ -43,6 +46,17 @@ $RECYCLE.BIN/
 # Logs
 *.log
 logs/
+
+# Compilação e Artefatos
+dist/
+build/
+out/
+*.egg-info/
+.eggs/
+
+# Docker
+.docker/
+docker-compose.override.yml
 
 # Python
 __pycache__/
@@ -74,4 +88,3 @@ pnpm-debug.log*
 .env.*
 !.env.example
 !.env.sample
-```
