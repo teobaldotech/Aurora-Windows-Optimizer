@@ -6,6 +6,10 @@
 .Spotlight-V100/
 .Trashes/
 .VolumeIcon.icns
+.fseventsd/
+.DocumentRevisions-V100/
+.TemporaryItems/
+.apdisk
 
 # Sistema operacional — Windows
 Thumbs.db
@@ -34,7 +38,7 @@ $RECYCLE.BIN/
 .classpath
 .settings/
 
-# Arquivos temporários
+# Arquivos temporários e de backup
 *.tmp
 *.temp
 *.bak
@@ -42,19 +46,23 @@ $RECYCLE.BIN/
 *.orig
 *.rej
 *.cache
+*.swp
+*.swo
+*~
 
 # Logs
 *.log
 logs/
 
-# Compilação e Artefatos
+# Compilação e artefatos
 dist/
 build/
 out/
+target/
 *.egg-info/
 .eggs/
 
-# Docker
+# Docker — configurações locais
 .docker/
 docker-compose.override.yml
 
@@ -70,11 +78,17 @@ __pycache__/
 .venv/
 venv/
 ENV/
+env/
 env.bak/
 venv.bak/
 .coverage
 .coverage.*
 htmlcov/
+pip-wheel-metadata/
+site/
+.pyre/
+.pytype/
+.pyre_configuration.local
 
 # Node.js
 node_modules/
@@ -82,9 +96,13 @@ npm-debug.log*
 yarn-debug.log*
 pnpm-debug.log*
 .npm/
+.nyc_output/
+coverage/
 
 # Segredos e configurações locais
 .env
 .env.*
 !.env.example
 !.env.sample
+*.pem
+*.key
